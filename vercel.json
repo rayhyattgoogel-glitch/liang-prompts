@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm run vercel-build",
+  "framework": "nextjs",
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+}

@@ -1,0 +1,4 @@
+[submodule "content/yao-open-prompts"]
+	path = content/yao-open-prompts
+	url = https://github.com/yaojingang/yao-open-prompts
+	branch = main

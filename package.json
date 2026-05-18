@@ -1,23 +1,55 @@
 {
-  "name": "yop-init",
+  "name": "liang-prompts",
   "version": "0.1.0",
   "private": true,
+  "description": "靓开源提示词 · 117 条中文 AI 提示词的精致前端，源自 yao-open-prompts（朱砂红中文编辑器风）",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prebuild": "tsx scripts/build-index.ts",
+    "predev": "tsx scripts/build-index.ts",
+    "sync:content": "git submodule update --init --remote --merge content/yao-open-prompts && pnpm prebuild",
+    "vercel-build": "git submodule update --init --recursive && pnpm build",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.7",
+    "@radix-ui/react-label": "^2.1.3",
+    "@radix-ui/react-scroll-area": "^1.2.4",
+    "@radix-ui/react-separator": "^1.1.3",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-tabs": "^1.1.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "fuse.js": "^7.1.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^0.469.0",
     "next": "16.2.6",
+    "next-themes": "^0.4.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sonner": "^1.7.4",
+    "tailwind-merge": "^2.6.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "fast-glob": "^3.3.3",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
+    "tw-animate-css": "^1.2.5",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

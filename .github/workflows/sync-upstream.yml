@@ -1,0 +1,57 @@
+name: Sync upstream content
+
+on:
+  schedule:
+    # 每天北京时间 02:00（UTC 18:00）跑一次
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump submodule to upstream main
+        id: bump
+        run: |
+          cd content/yao-open-prompts
+          OLD_SHA=$(git rev-parse HEAD)
+          git fetch origin main
+          git checkout origin/main
+          NEW_SHA=$(git rev-parse HEAD)
+          cd ../..
+          if [ "$OLD_SHA" != "$NEW_SHA" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "old=$OLD_SHA" >> "$GITHUB_OUTPUT"
+            echo "new=$NEW_SHA" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push if changed
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/yao-open-prompts
+          SHORT_OLD=$(echo "${{ steps.bump.outputs.old }}" | cut -c1-7)
+          SHORT_NEW=$(echo "${{ steps.bump.outputs.new }}" | cut -c1-7)
+          git commit -m "chore(content): bump yao-open-prompts ${SHORT_OLD} → ${SHORT_NEW}"
+          git push
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ "${{ steps.bump.outputs.changed }}" = "true" ]; then
+            echo "✓ Submodule bumped: ${{ steps.bump.outputs.old }} → ${{ steps.bump.outputs.new }}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "= Upstream unchanged; no commit." >> "$GITHUB_STEP_SUMMARY"
+          fi

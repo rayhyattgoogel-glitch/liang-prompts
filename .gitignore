@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# screenshots & playwright artifacts (used only for local dev verification)
+*.png
+.playwright-mcp/
+
+# generated content index (rebuilt by prebuild)
+/public/data/index.json
+
