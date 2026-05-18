@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { Github } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
   return (
@@ -37,6 +39,21 @@ export function SiteHeader() {
         <div className="flex-1" />
 
         <ThemeToggle />
+        <Button
+          asChild
+          variant="ghost"
+          size="icon"
+          aria-label="查看本项目的 GitHub 仓库"
+          title="本项目 GitHub"
+        >
+          <a
+            href="https://github.com/rayhyattgoogel-glitch/liang-prompts"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <Github className="size-4" />
+          </a>
+        </Button>
       </div>
     </header>
   );
