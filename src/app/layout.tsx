@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://prompts.yolklab.net"),
   title: {
     default: "靓开源提示词 · 117 条中文 AI 提示词，开箱即用",
     template: "%s · 靓开源提示词",
